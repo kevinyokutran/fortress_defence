@@ -13,8 +13,8 @@ public class Main {
         BoardUI ui = new BoardUI(board);
         ui.displayBoard();
         System.out.println();
-
-        board.getCell(1, 2).setIsMissed();
+        
+        board.getCell(1, 2).setIsMissed(); // Test line for user to select and miss a tank cell.
         ui.displayBoardAfterGame();
     }
 
