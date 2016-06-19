@@ -1,28 +1,41 @@
 package GameLogic;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 public class Board {
 
-    private static final int DIRECTION = 4;
-    private static final int NORTH = 0;
-    private static final int EAST = 1;
-    private static final int SOUTH = 2;
-    private static final int WEST = 3;
-    private static final int MINIMUM_INDEX = 0;
+    private enum DIRECTION {
+        NORTH, EAST, SOUTH, WEST;
+
+        private static final DIRECTION[] DIRECTIONS = values();
+        private static final int NUMBER_OF_DIRECTIONS = DIRECTIONS.length;
+        private static final Random RANDOM = new Random();
+
+        public static DIRECTION getRandomDirection() {
+            return DIRECTIONS[RANDOM.nextInt(NUMBER_OF_DIRECTIONS)];
+        }
+    }
+
+    private static final int MINIMUM_CELL_INDEX = 0;
+    private static final String UNKNOWN_TO_PLAYER = "~";
+    private static final String PLAYER_HAS_MISSED = ".";
+    private static final String PLAYER_HAS_HIT_TANK = "X";
+    private static final String EMPTY_CELL = " ";
 
     private Cell[][] cells;
     private Tank[] tanks;
     private int numberOfRows;
     private int numberOfColumns;
     private int numberOfTanks;
-    private int numberOfTankParts;
+    private int numberOfTankCells;
 
-    public Board(int numberOfRows, int numberOfColumns, int numberOfTanks, int numberOfTankParts) {
+    public Board(int numberOfRows, int numberOfColumns, int numberOfTanks, int numberOfTankCells) {
         this.numberOfRows = numberOfRows;
         this.numberOfColumns = numberOfColumns;
         this.numberOfTanks = numberOfTanks;
-        this.numberOfTankParts = numberOfTankParts;
+        this.numberOfTankCells = numberOfTankCells;
 
         cells = new Cell[numberOfRows][numberOfColumns];
         for (int row = 0; row < numberOfRows; row++) {
@@ -33,12 +46,12 @@ public class Board {
 
         tanks = new Tank[numberOfTanks];
         for (int i = 0; i < numberOfTanks; i++) {
-            tanks[i] = new Tank(numberOfTankParts);
+            tanks[i] = new Tank(numberOfTankCells);
         }
         generateTanks();
     }
 
-    public void generateTanks() {
+    private void generateTanks() {
         for (Tank tank : tanks) {
             placeNextTankPiece(tank);
         }
@@ -50,42 +63,41 @@ public class Board {
         int randRow = rand.nextInt(numberOfRows);
         int randCol = rand.nextInt(numberOfColumns);
 
-        if (cells[randRow][randCol].getIsTank() == false) {
-            tank.addPart(cells[randRow][randCol]);
-            cells[randRow][randCol].setIsTank(true);
+        if (!cells[randRow][randCol].getIsTank()) {
+            tank.addCell(cells[randRow][randCol]);
+            cells[randRow][randCol].setIsTank();
 
-            while (tank.getParts().size() != tank.getNumberOfParts()) {
-                int currentRow = tank.getLastPart().getRow();
-                int currentCol = tank.getLastPart().getColumn();
-                int direction = rand.nextInt(DIRECTION);
+            while (tank.getCells().size() != tank.getNumberOfCells()) {
+                int currentRow = tank.getLastCellPlaced().getRow();
+                int currentCol = tank.getLastCellPlaced().getColumn();
 
-                switch (direction) {
-                    case 0:
+                switch (DIRECTION.getRandomDirection()) {
+                    case NORTH:
                         int north = currentRow - 1;
-                        if (north >= 0 && cells[north][currentCol].getIsTank() == false) {
-                            tank.addPart(cells[north][currentCol]);
-                            cells[north][currentCol].setIsTank(true);
+                        if (north >= MINIMUM_CELL_INDEX && !cells[north][currentCol].getIsTank()) {
+                            tank.addCell(cells[north][currentCol]);
+                            cells[north][currentCol].setIsTank();
                         }
                         break;
-                    case 1:
+                    case EAST:
                         int east = currentCol + 1;
-                        if (east < numberOfColumns && cells[currentRow][east].getIsTank() == false) {
-                            tank.addPart(cells[currentRow][east]);
-                            cells[currentRow][east].setIsTank(true);
+                        if (east < numberOfColumns && !cells[currentRow][east].getIsTank()) {
+                            tank.addCell(cells[currentRow][east]);
+                            cells[currentRow][east].setIsTank();
                         }
                         break;
-                    case 2:
+                    case SOUTH:
                         int south = currentRow + 1;
-                        if (south < numberOfRows && cells[south][currentCol].getIsTank() == false) {
-                            tank.addPart(cells[south][currentCol]);
-                            cells[south][currentCol].setIsTank(true);
+                        if (south < numberOfRows && !cells[south][currentCol].getIsTank()) {
+                            tank.addCell(cells[south][currentCol]);
+                            cells[south][currentCol].setIsTank();
                         }
                         break;
-                    case 3:
+                    case WEST:
                         int west = currentCol - 1;
-                        if (west >= 0 && cells[currentRow][west].getIsTank() == false) {
-                            tank.addPart(cells[currentRow][west]);
-                            cells[currentRow][west].setIsTank(true);
+                        if (west >= MINIMUM_CELL_INDEX && !cells[currentRow][west].getIsTank()) {
+                            tank.addCell(cells[currentRow][west]);
+                            cells[currentRow][west].setIsTank();
                         }
                         break;
                 }
@@ -93,6 +105,36 @@ public class Board {
         } else {
             placeNextTankPiece(tank);
         }
+    }
+
+    public List<Integer> getDamageFromTanks() {
+        List<Integer> damageOfTanks = new ArrayList<Integer>();
+        for (Tank tank : tanks) {
+            damageOfTanks.add(tank.currentDamage());
+        }
+        return damageOfTanks;
+    }
+
+    public String showCurrentCellStatus(int row, int col) {
+        String status = UNKNOWN_TO_PLAYER;
+        if (cells[row][col].getIsKnownToPlayer()) {
+            if (cells[row][col].getIsTank()) {
+                status = PLAYER_HAS_HIT_TANK;
+            } else {
+                status = PLAYER_HAS_MISSED;
+            }
+        }
+        return status;
+    }
+
+    public String showCellStatusAfterGame(int row, int col) {
+        String status = EMPTY_CELL;
+            if (cells[row][col].getIsMissed()) {
+                status = PLAYER_HAS_MISSED;
+            } else if (cells[row][col].getIsTank()){
+                status = PLAYER_HAS_HIT_TANK;
+        }
+        return status;
     }
 
     public int getNumberOfRows() {
@@ -111,18 +153,4 @@ public class Board {
         return cells[row][col];
     }
 
-    public static void main(String[] args) {
-        Board testBoard = new Board(10, 10, 4, 4);
-        String placeholder = "_";
-        for (int row = 0; row < testBoard.getNumberOfRows(); row++) {
-            for (int col = 0; col < testBoard.getNumberOfColumns(); col++) {
-                if (testBoard.getCell(row, col).getIsTank() == false) {
-                    System.out.printf("%3d", row);
-                } else {
-                    System.out.printf("%3s", placeholder);
-                }
-            }
-            System.out.println();
-        }
-    }
 }

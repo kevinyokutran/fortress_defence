@@ -4,9 +4,9 @@ public class Cell {
 
     private boolean isTank;
     private boolean isKnownToPlayer;
+    private boolean isMissed;
     private int row;
     private int column;
-    private String coordinate;
 
 
     public Cell(int row, int col) {
@@ -14,41 +14,39 @@ public class Cell {
         this.column = col;
         isTank = false;
         isKnownToPlayer = false;
-    }
-
-    public void setRow (int row) {
-        this.row = row;
+        isMissed = false;
     }
 
     public int getRow() {
         return row;
     }
 
-    public void getColumn (int column) {
-        this.column = column;
-    }
-
     public int getColumn() {
         return column;
     }
 
-    public void setIsTank (boolean isTank) {
-        this.isTank = isTank;
+    public void setIsTank () {
+        isTank = true;
     }
 
     public boolean getIsTank() {
         return isTank;
     }
 
-    public void setIsKnownToPlayer(boolean isKnownToPlayer) {
-        this.isKnownToPlayer = isKnownToPlayer;
+    public void setIsKnownToPlayer() {
+        isKnownToPlayer = true;
     }
 
     public boolean getIsKnownToPlayer() {
         return isKnownToPlayer;
     }
 
-    public String setCoordinate(String coordinate) {
-        return "a";
+    public void setIsMissed() {
+        isMissed = true;
     }
+
+    public boolean getIsMissed() {
+        return isMissed;
+    }
+
 }
