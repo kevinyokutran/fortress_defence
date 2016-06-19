@@ -153,4 +153,8 @@ public class Board {
         return cells[row][col];
     }
 
+    public Tank[] getTanks() {
+        return tanks;
+    }
+
 }

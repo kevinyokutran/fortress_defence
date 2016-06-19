@@ -1,4 +1,5 @@
 import GameLogic.Board;
+import GameLogic.Tank;
 import GameUI.BoardUI;
 import GameUI.GameUI;
 
@@ -16,15 +17,37 @@ public class Main {
         Board board = new Board(ROW, COLUMN, NUMBER_OF_TANKS, NUMBER_OF_CELLS);
         BoardUI boardUI = new BoardUI(board);
         GameUI gameUI = new GameUI(board);
-        boardUI.displayBoard();
-        gameUI.printFortressHealth(health);
-        gameUI.getUserCoordinates();
-        gameUI.printDamageFromTanks(board.getDamageFromTanks());
-        System.out.println();
+        boolean isGameOver = false;
 
-        board.getCell(9, 9).setIsMissed();
-        boardUI.displayBoardAfterGame();
+        while (!isGameOver) {
 
+            boardUI.displayBoard();
+            gameUI.printFortressHealth(health);
+
+            if (!hasWon(board)) {
+                gameUI.getUserCoordinates();
+                gameUI.printDamageFromTanks(board.getDamageFromTanks());
+                isGameOver = true; // Stops infinite loop until coordinates.
+            } else {
+                isGameOver = true;
+                boardUI.displayBoardAfterGame();
+            }
+        }
+
+    }
+
+    private static boolean hasWon(Board board) {
+        if (health <= 0) {
+            return false;
+        } else {
+            for (Tank tank : board.getTanks()) {
+                if (tank.getNumberOfUndamagedCells() != 0) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 }
