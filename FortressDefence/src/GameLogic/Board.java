@@ -7,7 +7,7 @@ import java.util.Random;
 public class Board {
 
     private enum DIRECTION {
-        NORTH, EAST, SOUTH, WEST;
+        NORTH, EAST, SOUTH, WEST; // = values();
 
         private static final DIRECTION[] DIRECTIONS = values();
         private static final int NUMBER_OF_DIRECTIONS = DIRECTIONS.length;
@@ -59,21 +59,21 @@ public class Board {
 
     private void placeNextTankPiece(Tank tank) {
         Random rand = new Random();
-
+        
         int randRow = rand.nextInt(numberOfRows);
         int randCol = rand.nextInt(numberOfColumns);
-
+        // Randomly selects a valid cell for a tank to be placed. If invalid recursively tries another cell.
         if (!cells[randRow][randCol].getIsTank()) {
             tank.addCell(cells[randRow][randCol]);
             cells[randRow][randCol].setIsTank();
-
+            // Updates the last tank cell place to be the current cell.
             while (tank.getCells().size() != tank.getNumberOfCells()) {
                 int currentRow = tank.getLastCellPlaced().getRow();
                 int currentCol = tank.getLastCellPlaced().getColumn();
-
+                
                 switch (DIRECTION.getRandomDirection()) {
                     case NORTH:
-                        int north = currentRow - 1;
+                        int north = currentRow - 1; // Not sure if this would count as a magic number.
                         if (north >= MINIMUM_CELL_INDEX && !cells[north][currentCol].getIsTank()) {
                             tank.addCell(cells[north][currentCol]);
                             cells[north][currentCol].setIsTank();
@@ -107,6 +107,7 @@ public class Board {
         }
     }
 
+    // Plan is to have a method which loops through the damage and decrements fortress health
     public List<Integer> getDamageFromTanks() {
         List<Integer> damageOfTanks = new ArrayList<Integer>();
         for (Tank tank : tanks) {
