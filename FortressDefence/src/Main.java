@@ -9,6 +9,8 @@ public class Main {
     private static final int COLUMN = 10;
     private static final int NUMBER_OF_TANKS = 5;
     private static final int NUMBER_OF_CELLS = 4;
+    private static char STARTING_ROW_VALUE = 'A';
+    private static int STARTING_COLUMN_VALUE = 0;
 
     private static int health = 1500;
 
@@ -25,7 +27,7 @@ public class Main {
             gameUI.printFortressHealth(health);
 
             if (!hasWon(board)) {
-                gameUI.getUserCoordinates();
+                gameUI.getUserCoordinates(STARTING_ROW_VALUE, STARTING_COLUMN_VALUE);
                 gameUI.printDamageFromTanks(board.getDamageFromTanks());
                 isGameOver = true; // Stops infinite loop until coordinates.
             } else {
