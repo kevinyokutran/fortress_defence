@@ -2,6 +2,8 @@ import GameLogic.Board;
 import GameLogic.Tank;
 import GameUI.BoardUI;
 import GameUI.GameUI;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Main {
 
@@ -27,15 +29,22 @@ public class Main {
             gameUI.printFortressHealth(health);
 
             if (!hasWon(board)) {
-                gameUI.getUserCoordinates(STARTING_ROW_VALUE, STARTING_COLUMN_VALUE);
+                Map<String,Integer> coordinates = gameUI.getUserCoordinates(STARTING_ROW_VALUE, STARTING_COLUMN_VALUE);
+                if (board.isSuccessfulHit(coordinates)) {
+                    board.setCellStatus(coordinates, true);
+                    gameUI.printMoveResults(true);
+                }
+                else {
+                    board.setCellStatus(coordinates, false);
+                    gameUI.printMoveResults(false);
+                }
                 gameUI.printDamageFromTanks(board.getDamageFromTanks());
-                isGameOver = true; // Stops infinite loop until coordinates.
             } else {
-                isGameOver = true;
+                isGameOver = true; // Stops infinite loop until coordinates.
                 boardUI.displayBoardAfterGame();
             }
         }
-        boardUI.displayBoardAfterGame();
+        //boardUI.displayBoardAfterGame();
 
     }
 

@@ -2,6 +2,7 @@ package GameLogic;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Board {
@@ -135,6 +136,22 @@ public class Board {
                 status = PLAYER_HAS_HIT_TANK;
         }
         return status;
+    }
+
+    public boolean isSuccessfulHit(Map<String, Integer> coordinates) {
+        Cell cell = getCell(coordinates.get("row"), coordinates.get("column"));
+        return cell.getIsTank() && !cell.getIsKnownToPlayer();
+    }
+
+    public void setCellStatus(Map<String, Integer> coordinates, boolean hit) {
+        Cell cell = getCell(coordinates.get("row"), coordinates.get("column"));
+        if (hit) {
+            cell.setIsTank();
+        }
+        else {
+            cell.setIsMissed();
+        }
+        cell.setIsKnownToPlayer();
     }
 
     public int getNumberOfRows() {

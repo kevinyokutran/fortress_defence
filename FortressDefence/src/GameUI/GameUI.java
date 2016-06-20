@@ -1,7 +1,10 @@
 package GameUI;
 
 import GameLogic.Board;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Scanner;
 
 public class GameUI {
@@ -24,7 +27,17 @@ public class GameUI {
         System.out.printf("Fortress Structure Left: %d.%n", health);
     }
 
-    public void getUserCoordinates(char startingRowLetter, int startingColNum) {
+    public void printMoveResults(boolean hit) {
+        if (hit) {
+            System.out.println("HIT!");
+        }
+        else {
+            System.out.println("Miss.");
+        }
+    }
+
+    public Map<String, Integer> getUserCoordinates(char startingRowLetter, int startingColNum) {
+        Map<String, Integer> coordinates = new HashMap<String, Integer>();
         while(true) {
             Scanner scanner = new Scanner(System.in);
             String coordinate = "";
@@ -39,7 +52,9 @@ public class GameUI {
                         || column > startingColNum + board.getNumberOfColumns()) {
                     throw new Exception();
                 }
-                break;
+                coordinates.put("row",row-startingRowLetter);
+                coordinates.put("column",column-1);
+                return coordinates;
             } catch (Exception e) {
                 System.out.printf("Invalid coordinate: %s%nPlease try again%n", coordinate);
             }
