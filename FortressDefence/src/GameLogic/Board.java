@@ -53,19 +53,19 @@ public class Board {
 
     private void generateTanks() {
         for (Tank tank : tanks) {
-            placeNextTankPiece(tank);
+            placeNextTankCell(tank);
         }
     }
 
-    private void placeNextTankPiece(Tank tank) {
+    private void placeNextTankCell(Tank tank) {
         Random rand = new Random();
 
         int randRow = rand.nextInt(numberOfRows);
         int randCol = rand.nextInt(numberOfColumns);
 
-        if (!cells[randRow][randCol].getIsTank()) {
-            tank.addCell(cells[randRow][randCol]);
-            cells[randRow][randCol].setIsTank();
+        if (!getCell(randRow, randCol).getIsTank()) {
+            tank.addCell(getCell(randRow, randCol));
+            getCell(randRow, randCol).setIsTank();
 
             while (tank.getCells().size() != tank.getNumberOfCells()) {
                 int currentRow = tank.getLastCellPlaced().getRow();
@@ -74,36 +74,36 @@ public class Board {
                 switch (DIRECTION.getRandomDirection()) {
                     case NORTH:
                         int north = currentRow - 1;
-                        if (north >= MINIMUM_CELL_INDEX && !cells[north][currentCol].getIsTank()) {
-                            tank.addCell(cells[north][currentCol]);
-                            cells[north][currentCol].setIsTank();
+                        if (north >= MINIMUM_CELL_INDEX && !getCell(north, currentCol).getIsTank()) {
+                            tank.addCell(getCell(north, currentCol));
+                            getCell(north, currentCol).setIsTank();
                         }
                         break;
                     case EAST:
                         int east = currentCol + 1;
-                        if (east < numberOfColumns && !cells[currentRow][east].getIsTank()) {
-                            tank.addCell(cells[currentRow][east]);
-                            cells[currentRow][east].setIsTank();
+                        if (east < numberOfColumns && !getCell(currentRow, east).getIsTank()) {
+                            tank.addCell(getCell(currentRow, east));
+                            getCell(currentRow, east).setIsTank();
                         }
                         break;
                     case SOUTH:
                         int south = currentRow + 1;
-                        if (south < numberOfRows && !cells[south][currentCol].getIsTank()) {
-                            tank.addCell(cells[south][currentCol]);
-                            cells[south][currentCol].setIsTank();
+                        if (south < numberOfRows && !getCell(south, currentCol).getIsTank()) {
+                            tank.addCell(getCell(south, currentCol));
+                            getCell(south, currentCol).setIsTank();
                         }
                         break;
                     case WEST:
                         int west = currentCol - 1;
-                        if (west >= MINIMUM_CELL_INDEX && !cells[currentRow][west].getIsTank()) {
-                            tank.addCell(cells[currentRow][west]);
-                            cells[currentRow][west].setIsTank();
+                        if (west >= MINIMUM_CELL_INDEX && !getCell(currentRow, west).getIsTank()) {
+                            tank.addCell(getCell(currentRow, west));
+                            getCell(currentRow, west).setIsTank();
                         }
                         break;
                 }
             }
         } else {
-            placeNextTankPiece(tank);
+            placeNextTankCell(tank);
         }
     }
 
@@ -117,8 +117,8 @@ public class Board {
 
     public String showCurrentCellStatus(int row, int col) {
         String status = UNKNOWN_TO_PLAYER;
-        if (cells[row][col].getIsKnownToPlayer()) {
-            if (cells[row][col].getIsTank()) {
+        if (getCell(row, col).getIsKnownToPlayer()) {
+            if (getCell(row, col).getIsTank()) {
                 status = PLAYER_HAS_HIT_TANK;
             } else {
                 status = PLAYER_HAS_MISSED;
@@ -129,9 +129,9 @@ public class Board {
 
     public String showCellStatusAfterGame(int row, int col) {
         String status = EMPTY_CELL;
-            if (cells[row][col].getIsMissed()) {
+            if (getCell(row, col).getIsMissed()) {
                 status = PLAYER_HAS_MISSED;
-            } else if (cells[row][col].getIsTank()){
+            } else if (getCell(row, col).getIsTank()){
                 status = PLAYER_HAS_HIT_TANK;
         }
         return status;

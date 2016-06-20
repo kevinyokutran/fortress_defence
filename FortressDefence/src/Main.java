@@ -33,6 +33,7 @@ public class Main {
                 boardUI.displayBoardAfterGame();
             }
         }
+        boardUI.displayBoardAfterGame();
 
     }
 
