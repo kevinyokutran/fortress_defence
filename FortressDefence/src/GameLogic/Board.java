@@ -11,10 +11,10 @@ public class Board {
 
         private static final DIRECTION[] DIRECTIONS = values();
         private static final int NUMBER_OF_DIRECTIONS = DIRECTIONS.length;
-        private static final Random RANDOM = new Random();
+        private static final Random RAND = new Random();
 
         public static DIRECTION getRandomDirection() {
-            return DIRECTIONS[RANDOM.nextInt(NUMBER_OF_DIRECTIONS)];
+            return DIRECTIONS[RAND.nextInt(NUMBER_OF_DIRECTIONS)];
         }
     }
 
@@ -73,31 +73,31 @@ public class Board {
 
                 switch (DIRECTION.getRandomDirection()) {
                     case NORTH:
-                        int northFromCurrentCell = currentRow - 1;
-                        if (northFromCurrentCell >= MINIMUM_CELL_INDEX && !getCell(northFromCurrentCell, currentCol).getIsTank()) {
-                            tank.addCell(getCell(northFromCurrentCell, currentCol));
-                            getCell(northFromCurrentCell, currentCol).setIsTank();
+                        int northFromCurrentRow = currentRow - 1;
+                        if (northFromCurrentRow >= MINIMUM_CELL_INDEX && !getCell(northFromCurrentRow, currentCol).getIsTank()) {
+                            tank.addCell(getCell(northFromCurrentRow, currentCol));
+                            getCell(northFromCurrentRow, currentCol).setIsTank();
                         }
                         break;
                     case EAST:
-                        int eastFromCurrentCell = currentCol + 1;
-                        if (eastFromCurrentCell < numberOfColumns && !getCell(currentRow, eastFromCurrentCell).getIsTank()) {
-                            tank.addCell(getCell(currentRow, eastFromCurrentCell));
-                            getCell(currentRow, eastFromCurrentCell).setIsTank();
+                        int eastFromCurrentCol = currentCol + 1;
+                        if (eastFromCurrentCol < numberOfColumns && !getCell(currentRow, eastFromCurrentCol).getIsTank()) {
+                            tank.addCell(getCell(currentRow, eastFromCurrentCol));
+                            getCell(currentRow, eastFromCurrentCol).setIsTank();
                         }
                         break;
                     case SOUTH:
-                        int southFromCurrentCell = currentRow + 1;
-                        if (southFromCurrentCell < numberOfRows && !getCell(southFromCurrentCell, currentCol).getIsTank()) {
-                            tank.addCell(getCell(southFromCurrentCell, currentCol));
-                            getCell(southFromCurrentCell, currentCol).setIsTank();
+                        int southFromCurrentRow = currentRow + 1;
+                        if (southFromCurrentRow < numberOfRows && !getCell(southFromCurrentRow, currentCol).getIsTank()) {
+                            tank.addCell(getCell(southFromCurrentRow, currentCol));
+                            getCell(southFromCurrentRow, currentCol).setIsTank();
                         }
                         break;
                     case WEST:
-                        int westFromCurrentCell = currentCol - 1;
-                        if (westFromCurrentCell >= MINIMUM_CELL_INDEX && !getCell(currentRow, westFromCurrentCell).getIsTank()) {
-                            tank.addCell(getCell(currentRow, westFromCurrentCell));
-                            getCell(currentRow, westFromCurrentCell).setIsTank();
+                        int westFromCurrentCol = currentCol - 1;
+                        if (westFromCurrentCol >= MINIMUM_CELL_INDEX && !getCell(currentRow, westFromCurrentCol).getIsTank()) {
+                            tank.addCell(getCell(currentRow, westFromCurrentCol));
+                            getCell(currentRow, westFromCurrentCol).setIsTank();
                         }
                         break;
                 }
