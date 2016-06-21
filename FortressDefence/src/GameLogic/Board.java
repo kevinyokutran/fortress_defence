@@ -63,6 +63,7 @@ public class Board {
 
         int randRow = rand.nextInt(numberOfRows);
         int randCol = rand.nextInt(numberOfColumns);
+        int numberOfTries = 0;
 
         if (!getCell(randRow, randCol).getIsTank()) {
             tank.addCell(getCell(randRow, randCol));
@@ -71,6 +72,15 @@ public class Board {
             while (tank.getCells().size() != tank.getNumberOfCells()) {
                 int currentRow = tank.getLastCellPlaced().getRow();
                 int currentCol = tank.getLastCellPlaced().getColumn();
+                numberOfTries++;
+
+                if (numberOfTries > 10) {
+                    while (tank.getCells().size() > 0) {
+                        tank.getLastCellPlaced().setIsEmtpy();
+                        tank.getCells().remove(tank.getLastCellPlaced());
+                    }
+                    placeNextTankCell(tank);
+                }
 
                 switch (DIRECTION.getRandomDirection()) {
                     case NORTH:
@@ -101,6 +111,10 @@ public class Board {
                             getCell(currentRow, westFromCurrentCol).setIsTank();
                         }
                         break;
+                    default: {
+                        assert false;
+                        break;
+                    }
                 }
             }
         } else {

@@ -49,4 +49,10 @@ public class Cell {
         return isMissed;
     }
 
+    public void setIsEmtpy() {
+        isTank = false;
+        isKnownToPlayer = false;
+        isMissed = false;
+    }
+
 }
