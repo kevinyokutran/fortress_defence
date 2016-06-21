@@ -165,7 +165,6 @@ public class Board {
         }
         else {
             cell.setIsMissed();
-            System.out.println(tanks[0].getCells());
         }
         cell.setIsKnownToPlayer();
     }
