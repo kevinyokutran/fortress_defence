@@ -38,7 +38,7 @@ public class Main {
             gameUI.printWinMessage();
         }
         else {
-            gameUI.printWinMessage();
+            gameUI.printLoseMessage();
             boardUI.displayBoardAfterGame();
         }
     }

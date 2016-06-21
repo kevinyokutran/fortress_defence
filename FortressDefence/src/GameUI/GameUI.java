@@ -64,7 +64,7 @@ public class GameUI {
                 coordinates.put("column",column-1);
                 return coordinates;
             } catch (Exception e) {
-                System.out.printf("Invalid coordinate: %s%nPlease try again%n", coordinate);
+                System.out.printf("Invalid coordinate: %s%n", coordinate);
             }
         }
     }
