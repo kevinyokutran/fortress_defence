@@ -27,6 +27,14 @@ public class GameUI {
         System.out.printf("Fortress Structure Left: %d.%n", health);
     }
 
+    public void printWinMessage() {
+        System.out.println("Congratulations! You won!");
+    }
+
+    public void printLoseMessage() {
+        System.out.println("I'm sorry, your fortress has been smashed!");
+    }
+
     public void printMoveResults(boolean hit) {
         if (hit) {
             System.out.println("HIT!");

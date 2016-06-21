@@ -147,11 +147,28 @@ public class Board {
         Cell cell = getCell(coordinates.get("row"), coordinates.get("column"));
         if (hit) {
             cell.setIsTank();
+            removeTankPart(coordinates);
         }
         else {
             cell.setIsMissed();
+            System.out.println(tanks[0].getCells());
         }
         cell.setIsKnownToPlayer();
+    }
+
+    private void removeTankPart(Map<String, Integer> coordinates) {
+        for (int i=0; i<tanks.length; i++) {
+            List<Cell> cells = tanks[i].getCells();
+            for (int j=0; j<cells.size(); j++) {
+                if (cells.get(j).getRow() == coordinates.get("row")
+                    && cells.get(j).getColumn()==coordinates.get("column")) {
+                    tanks[i].decrementUndamagedCells();
+                    cells.remove(j);
+                }
+            }
+
+
+        }
     }
 
     public int getNumberOfRows() {
