@@ -59,7 +59,7 @@ public class GameUI {
             String coordinate = "";
             System.out.print("Enter your move: ");
             try {
-                coordinate = scanner.next().toUpperCase();
+                coordinate = scanner.nextLine().toUpperCase();
                 int row = coordinate.charAt(0);
                 int column = Integer.parseInt(coordinate.substring(1));
                 if (row < startingRowLetter
