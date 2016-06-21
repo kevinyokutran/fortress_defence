@@ -18,6 +18,7 @@ public class Main {
         Board board = new Board(ROW, COLUMN, NUMBER_OF_TANKS, NUMBER_OF_CELLS);
         BoardUI boardUI = new BoardUI(board);
         GameUI gameUI = new GameUI(board);
+        gameUI.printIntroduction();
         while (!isGameOver(board)) {
             boardUI.displayBoard();
             gameUI.printFortressHealth(health);

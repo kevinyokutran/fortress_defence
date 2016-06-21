@@ -15,6 +15,14 @@ public class GameUI {
         this.board = board;
     }
 
+    public void printIntroduction() {
+        System.out.println("---------------------------------");
+        System.out.println("Welcome to Fortress Defense");
+        System.out.println("By Josh Vocal and Kevin Tran");
+        System.out.println("---------------------------------");
+        System.out.println();
+    }
+
     public void printDamageFromTanks(List<Integer> damageOfTanks) {
         for (Integer damage : damageOfTanks) {
             if (damage > 0) {
