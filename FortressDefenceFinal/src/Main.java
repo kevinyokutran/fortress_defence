@@ -4,6 +4,8 @@ import GameLogic.Tank;
 import GameUI.BoardUI;
 import GameUI.GameUI;
 
+import javax.swing.*;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.List;
@@ -16,100 +18,27 @@ import java.util.List;
  * If the user fails to destroy all the tanks and their health is less than 0, they lose. After the game,
  * the board will be revealed.
  */
-
 public class Main {
 
 	private static final int ROW = 10;
 	private static final int COLUMN = 10;
 	private static final int NUMBER_OF_TANKS = 5;
 	private static final int NUMBER_OF_CELLS = 4;
-
+	private static final String frameTitle = "Tank Battlefield";
 	private static int health = 1500;
 
 	public static void main(String[] args) {
-
+		JFrame frame = new JFrame();
 		Board board = new Board(ROW, COLUMN, NUMBER_OF_TANKS, NUMBER_OF_CELLS);
-		BoardUI boardUI = new BoardUI(board);
+		BoardUI boardUI = new BoardUI(board, frame, health);
 		GameUI gameUI = new GameUI(board);
-
 		gameUI.printIntroduction();
-
-		while (!isGameOver(board)) {
-
-			boardUI.displayBoard();
-			gameUI.printFortressHealth(health);
-			Map<String, Integer> coordinates = gameUI.getUserCoordinates();
-			boolean isSuccessfulHit = isSuccessfulHit(coordinates, board);
-
-			setCellStatus(coordinates, board, isSuccessfulHit);
-			gameUI.printMoveResults(isSuccessfulHit);
-
-			gameUI.printDamageFromTanks(calculateDamageTaken(getDamageFromTanks(board)));
-
-		}
-
-		if (hasWon()) {
-			gameUI.printWinMessage();
-		} else {
-			gameUI.printLoseMessage();
-			boardUI.displayBoardAfterGame();
-		}
-	}
-
-	private static boolean hasWon() {
-		return health > 0;
-	}
-
-	private static boolean isGameOver(Board board) {
-		boolean isDead = health <= 0;
-		boolean areTanksRemaining = true;
-		for (Tank tank : board.getTanks()) {
-			if (tank.getNumberOfUndamagedCells() != 0) {
-				areTanksRemaining = false;
-			}
-		}
-		return isDead || areTanksRemaining;
-	}
-
-	private static List<Integer> calculateDamageTaken(List<Integer> getDamage) {
-		for (Integer damage : getDamage) {
-			health -= damage;
-		}
-		return getDamage;
-	}
-
-	private static List<Integer> getDamageFromTanks(Board board) {
-		List<Integer> damageOfTanks = new ArrayList<>();
-		for (Tank tank : board.getTanks()) {
-			damageOfTanks.add(tank.currentDamage());
-		}
-		return damageOfTanks;
-	}
-
-	private static boolean isSuccessfulHit(Map<String, Integer> coordinates, Board board) {
-		Cell cell = board.getCell(coordinates.get("row"), coordinates.get("column"));
-		return cell.getIsTank() && !cell.getIsKnownToPlayer();
-	}
-
-	private static void setCellStatus(Map<String, Integer> coordinates, Board board, boolean isHit) {
-		Cell cell = board.getCell(coordinates.get("row"), coordinates.get("column"));
-		if (isHit) {
-			cell.setIsTank();
-			removeTankCell(coordinates, board);
-		} else {
-			cell.setIsMissed();
-		}
-		cell.setIsKnownToPlayer();
-	}
-
-	private static void removeTankCell(Map<String, Integer> coordinates, Board board) {
-		for (Tank tank : board.getTanks()) {
-			for (Cell cell : tank.getCells()) {
-				if (cell.getRow() == coordinates.get("row") && cell.getColumn() == coordinates.get("column")) {
-					tank.decrementUndamagedCells();
-				}
-			}
-		}
+		frame.setTitle(frameTitle);
+		frame.setLayout(new BoxLayout(frame.getContentPane(), BoxLayout.PAGE_AXIS));
+		boardUI.createGameBoard(frame);
+		frame.pack();
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.setVisible(true);
 	}
 
 }

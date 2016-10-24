@@ -1,10 +1,9 @@
 package GameUI;
 
 import GameLogic.Board;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
+
+import javax.swing.*;
+import java.util.*;
 
 /**
  * GameUI class displays a text interface to the user of information and states about the game.
@@ -28,24 +27,26 @@ public class GameUI {
 		System.out.println();
 	}
 
-	public void printDamageFromTanks(List<Integer> damageOfTanks) {
+	public List<String> printDamageFromTanks(List<Integer> damageOfTanks) {
+		List<String> output = new ArrayList<>();
 		for (Integer damage : damageOfTanks) {
 			if (damage > 0) {
-				System.out.printf("You were shot for %d!%n", damage);
+				output.add(String.format("You were shot for %d%n",damage));
 			}
 		}
+		return output;
 	}
 
-	public void printFortressHealth(int health) {
-		System.out.printf("Fortress Structure Left: %d.%n", health);
+	public String printFortressHealth(int health) {
+		return "Fortress Health: " + health;
 	}
 
-	public void printWinMessage() {
-		System.out.println("Congratulations! You won!");
+	public String printWinMessage() {
+		return "Congratulations! You won!";
 	}
 
-	public void printLoseMessage() {
-		System.out.println("I'm sorry, your fortress has been smashed!");
+	public String printLoseMessage() {
+		return "I'm sorry, your fortress has been smashed!";
 	}
 
 	public void printMoveResults(boolean isHit) {
