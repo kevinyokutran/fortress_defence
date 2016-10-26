@@ -8,6 +8,7 @@ Enemy health 3 = 4<br />
 Enemy health 2 = 3<br />
 Enemy health 1 = 2<br />
 Enemy health 0 = 0<br />
+
 This project was made using IntelliJ.
 
 ![fortress](https://cloud.githubusercontent.com/assets/10171765/19666409/2bae2066-99ff-11e6-9964-d9b5543234c0.png)
