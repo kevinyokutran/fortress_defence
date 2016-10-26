@@ -1,8 +1,8 @@
 # Fortress Defence
 
-A simple game made in Java, similar to the Battleship board game. Players must find and eliminate all randomly generated enemies before your hp depletes. Each enemy takes up 4 tiles and are in tetra shaped positions.
+A simple game made in Java which is similar to the Battleship board game. Players must find and eliminate all randomly generated enemies before your hp is depleted. Each enemy takes up 4 tiles and are in tetra shaped positions.
 
-Damages dealt per turn:<br />
+The enemies deal the following damage for every shot you fire:<br />
 Enemy health 4 (full) = 20<br />
 Enemy health 3 = 4<br />
 Enemy health 2 = 3<br />
