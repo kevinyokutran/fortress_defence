@@ -1,4 +1,4 @@
-# Fortress Defence
+# Tank Defense
 
 A simple game made in Java which is similar to the Battleship board game. Players must find and eliminate all randomly generated enemies before your hp is depleted. Each enemy takes up 4 tiles and are in tetra shaped positions.
 
